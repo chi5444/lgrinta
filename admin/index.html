@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة التحكم — Lgrinta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--gold:#D4AF37;--gold-dim:rgba(212,175,55,0.15);--bg:#070709;--bg2:#0d0d10;--surface:#15151e;--surface2:#1c1c28;--border:rgba(212,175,55,0.18);--text:#e8e8f0;--text-muted:#7a7a90;--text-dim:#50505f;--red:#ff3b5c;--green:#25D366;--radius:12px;--radius-lg:20px;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;}
+
+    /* SIDEBAR */
+    .sidebar{
+      width:240px;min-height:100vh;background:var(--bg2);
+      border-left:1px solid var(--border);display:flex;flex-direction:column;
+      position:fixed;top:0;right:0;bottom:0;z-index:50;
+    }
+    .sidebar-logo{
+      padding:24px 20px;border-bottom:1px solid var(--border);
+      font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;
+      color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,.3);
+    }
+    .sidebar-logo span{display:block;font-family:'Tajawal',sans-serif;font-size:10px;letter-spacing:1px;color:var(--text-muted);font-weight:400;margin-top:2px;}
+    .sidebar-nav{flex:1;padding:16px 12px;}
+    .sidebar-item{
+      display:flex;align-items:center;gap:10px;
+      padding:11px 14px;border-radius:10px;
+      color:var(--text-muted);cursor:pointer;
+      transition:all .2s;margin-bottom:4px;font-size:14px;font-weight:600;
+      border:1px solid transparent;
+    }
+    .sidebar-item:hover{background:var(--surface2);color:var(--text);}
+    .sidebar-item.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+    .sidebar-item .icon{font-size:18px;}
+    .sidebar-footer{padding:16px;border-top:1px solid var(--border);}
+    .admin-chip{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+    .admin-avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--gold),#8B6914);display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:14px;}
+    .admin-info{}
+    .admin-name{font-size:13px;font-weight:700;}
+    .admin-role{font-size:11px;color:var(--gold);}
+    .btn-back{display:flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:13px;padding:8px 10px;border-radius:8px;transition:all .2s;}
+    .btn-back:hover{color:var(--text);background:var(--surface2);}
+
+    /* MAIN */
+    .main{margin-right:240px;flex:1;padding:32px;min-height:100vh;}
+    .page-header{margin-bottom:32px;}
+    .page-header-title{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:1px;color:var(--text);}
+    .page-header-sub{font-size:14px;color:var(--text-muted);margin-top:4px;}
+
+    /* STATS */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;}
+    .stat-icon{font-size:28px;margin-bottom:12px;}
+    .stat-value{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--gold);letter-spacing:1px;}
+    .stat-label{font-size:12px;color:var(--text-muted);margin-top:4px;font-weight:600;}
+
+    /* TABS */
+    .tab-section{display:none;}
+    .tab-section.active{display:block;}
+
+    /* TABLE */
+    .table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+    .table-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+    .table-title{font-size:16px;font-weight:800;}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:var(--surface2);}
+    th{padding:12px 16px;text-align:right;font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;}
+    td{padding:14px 16px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04);}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:rgba(212,175,55,.02);}
+    .status-badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;}
+    .status-pending{background:rgba(212,175,55,.15);color:var(--gold);}
+    .status-completed{background:rgba(37,211,102,.15);color:var(--green);}
+    .status-cancelled{background:rgba(255,59,92,.15);color:var(--red);}
+    .btn-sm{padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s;border:none;}
+    .btn-edit{background:var(--gold-dim);color:var(--gold);border:1px solid var(--border);}
+    .btn-delete{background:rgba(255,59,92,.1);color:var(--red);border:1px solid rgba(255,59,92,.2);}
+    .btn-edit:hover{background:var(--gold);color:#000;}
+    .btn-delete:hover{background:var(--red);color:#fff;}
+    .actions-cell{display:flex;gap:6px;align-items:center;}
+
+    /* PRODUCT FORM */
+    .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;margin-bottom:24px;}
+    .form-card-title{font-size:16px;font-weight:800;margin-bottom:20px;color:var(--gold);}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .form-group{display:flex;flex-direction:column;gap:6px;}
+    .form-group.full{grid-column:1/-1;}
+    .form-label{font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:.5px;}
+    .form-input,.form-select{width:100%;background:var(--surface2);border:1px solid rgba(255,255,255,.07);color:var(--text);border-radius:10px;padding:11px 14px;font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+    .form-input:focus,.form-select:focus{border-color:var(--gold);}
+    .form-select option{background:var(--surface2);}
+    .checkbox-wrap{display:flex;align-items:center;gap:10px;cursor:pointer;}
+    .checkbox-wrap input{width:18px;height:18px;accent-color:var(--gold);}
+
+    .btn-primary{background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;border:none;padding:12px 28px;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s;}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(212,175,55,.35);}
+    .btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Tajawal',sans-serif;}
+
+    .alert{padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:16px;}
+    .alert-success{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:var(--green);}
+    .alert-error{background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.3);color:var(--red);}
+
+    .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:32px auto;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .select-status{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:4px 8px;font-family:'Tajawal',sans-serif;font-size:12px;cursor:pointer;}
+
+    @media(max-width:900px){
+      .sidebar{display:none;}
+      .main{margin-right:0;padding:20px;}
+      .stats-grid{grid-template-columns:repeat(2,1fr);}
+      .form-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">LGRINTA <span>لوحة التحكم</span></div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-item active" onclick="showTab('dashboard')">
+      <span class="icon">📊</span> الإحصائيات
+    </div>
+    <div class="sidebar-item" onclick="showTab('products')">
+      <span class="icon">🎮</span> المنتجات
+    </div>
+    <div class="sidebar-item" onclick="showTab('add-product')">
+      <span class="icon">➕</span> إضافة منتج
+    </div>
+    <div class="sidebar-item" onclick="showTab('orders')">
+      <span class="icon">📦</span> الطلبات
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="admin-chip">
+      <div class="admin-avatar">A</div>
+      <div class="admin-info">
+        <div class="admin-name" id="admin-name">Admin</div>
+        <div class="admin-role">⭐ مدير النظام</div>
+      </div>
+    </div>
+    <a href="../index.html" class="btn-back">← العودة للمتجر</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- DASHBOARD -->
+  <div class="tab-section active" id="tab-dashboard">
+    <div class="page-header">
+      <h1 class="page-header-title">لوحة التحكم</h1>
+      <p class="page-header-sub">مرحباً! إليك نظرة عامة على متجرك.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🎮</div>
+        <div class="stat-value" id="stat-products">—</div>
+        <div class="stat-label">إجمالي المنتجات</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-value" id="stat-orders">—</div>
+        <div class="stat-label">إجمالي الطلبات</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-value" id="stat-pending">—</div>
+        <div class="stat-label">طلبات معلقة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-value" id="stat-revenue">—</div>
+        <div class="stat-label">الإيرادات (SAR)</div>
+      </div>
+    </div>
+    <div class="table-card">
+      <div class="table-header">
+        <span class="table-title">آخر الطلبات</span>
+      </div>
+      <div id="recent-orders-wrap"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="tab-section" id="tab-products">
+    <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <h1 class="page-header-title">المنتجات</h1>
+        <p class="page-header-sub">إدارة جميع منتجات المتجر</p>
+      </div>
+      <button class="btn-primary" onclick="showTab('add-product')">+ إضافة منتج</button>
+    </div>
+    <div class="table-card">
+      <div id="products-table-wrap"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT PRODUCT -->
+  <div class="tab-section" id="tab-add-product">
+    <div class="page-header">
+      <h1 class="page-header-title" id="product-form-title">إضافة منتج جديد</h1>
+    </div>
+    <div id="product-form-alert"></div>
+    <div class="form-card">
+      <div class="form-card-title">✏️ بيانات المنتج</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">عنوان المنتج *</label>
+          <input type="text" class="form-input" id="pf-title" placeholder="مثال: بطاقة PlayStation 50$"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">اللعبة / الخدمة</label>
+          <input type="text" class="form-input" id="pf-game" placeholder="مثال: PlayStation"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">السعر *</label>
+          <input type="number" class="form-input" id="pf-price" placeholder="0.00" step="0.01"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">السعر القديم (للخصم)</label>
+          <input type="number" class="form-input" id="pf-old-price" placeholder="اتركه فارغاً إن لم يوجد" step="0.01"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">القسم *</label>
+          <select class="form-select" id="pf-category">
+            <option value="gift_cards">كروت الهدايا</option>
+            <option value="games">الألعاب</option>
+            <option value="social">سوشيل ميديا</option>
+            <option value="subscriptions">الاشتراكات</option>
+            <option value="top_up">شحن الألعاب</option>
+            <option value="accounts">الحسابات</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">المنطقة</label>
+          <input type="text" class="form-input" id="pf-region" placeholder="مثال: السعودية، عالمي، USA"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">الأيقونة (إيموجي)</label>
+          <input type="text" class="form-input" id="pf-icon" placeholder="🎮"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">شارة (اختياري)</label>
+          <input type="text" class="form-input" id="pf-badge" placeholder="مثال: الأكثر مبيعاً"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">كلاس الصورة (CSS)</label>
+          <select class="form-select" id="pf-img-class">
+            <option value="img-default">افتراضي</option>
+            <option value="img-ps">PlayStation</option>
+            <option value="img-xbox">Xbox</option>
+            <option value="img-steam">Steam</option>
+            <option value="img-pubg">PUBG</option>
+            <option value="img-free">Free Fire</option>
+            <option value="img-social">سوشيل ميديا</option>
+            <option value="img-itunes">iTunes</option>
+            <option value="img-google">Google Play</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">الحالة</label>
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="pf-in-stock" checked/>
+            <span>متوفر في المخزون</span>
+          </label>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">وصف المنتج</label>
+          <textarea class="form-input" id="pf-description" placeholder="وصف تفصيلي للمنتج..." style="min-height:100px;resize:vertical;"></textarea>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="pf-edit-id"/>
+    <div style="display:flex;gap:12px;">
+      <button class="btn-primary" onclick="saveProduct()">💾 حفظ المنتج</button>
+      <button class="btn-secondary" onclick="resetProductForm()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="tab-section" id="tab-orders">
+    <div class="page-header">
+      <h1 class="page-header-title">الطلبات</h1>
+      <p class="page-header-sub">إدارة وتتبع جميع الطلبات</p>
+    </div>
+    <div class="table-card">
+      <div id="orders-table-wrap"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+let currentTab = 'dashboard';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const user = await requireAdmin();
+  if (!user) return;
+  document.getElementById('admin-name').textContent = user.email.split('@')[0];
+  loadDashboard();
+});
+
+function showTab(tab) {
+  document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.sidebar-item')[['dashboard','products','add-product','orders'].indexOf(tab)]?.classList.add('active');
+  currentTab = tab;
+
+  if (tab === 'products') loadProductsTable();
+  if (tab === 'orders') loadOrdersTable();
+  if (tab === 'dashboard') loadDashboard();
+  if (tab === 'add-product') { resetProductForm(); }
+}
+
+// ─── DASHBOARD ───
+async function loadDashboard() {
+  const [prods, orders] = await Promise.all([
+    _supabase.from('products').select('id', { count: 'exact' }),
+    _supabase.from('orders').select('*')
+  ]);
+
+  const allOrders = orders.data || [];
+  const pending = allOrders.filter(o => o.status === 'pending').length;
+  const revenue = allOrders.filter(o => o.status === 'completed').reduce((s, o) => s + (o.amount || 0), 0);
+
+  document.getElementById('stat-products').textContent = prods.count || 0;
+  document.getElementById('stat-orders').textContent = allOrders.length;
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-revenue').textContent = revenue.toFixed(0);
+
+  const recent = allOrders.slice(-10).reverse();
+  document.getElementById('recent-orders-wrap').innerHTML = recent.length === 0
+    ? '<p style="padding:24px;color:var(--text-muted)">لا توجد طلبات بعد</p>'
+    : `<table><thead><tr><th>#</th><th>المنتج</th><th>المبلغ</th><th>الحالة</th></tr></thead><tbody>
+      ${recent.map(o => `<tr>
+        <td style="color:var(--text-dim)">${o.id}</td>
+        <td>${o.product_title || '—'}</td>
+        <td style="color:var(--gold);font-weight:700">${o.amount} SAR</td>
+        <td><span class="status-badge status-${o.status||'pending'}">${statusLabel(o.status)}</span></td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+// ─── PRODUCTS TABLE ───
+async function loadProductsTable() {
+  const { data } = await _supabase.from('products').select('*').order('id', { ascending: false });
+  const wrap = document.getElementById('products-table-wrap');
+
+  if (!data || data.length === 0) {
+    wrap.innerHTML = '<p style="padding:24px;color:var(--text-muted)">لا توجد منتجات. أضف منتجك الأول!</p>'; return;
+  }
+
+  wrap.innerHTML = `<table><thead><tr>
+    <th>الأيقونة</th><th>العنوان</th><th>القسم</th><th>السعر</th><th>الحالة</th><th>الإجراءات</th>
+  </tr></thead><tbody>
+    ${data.map(p => `<tr>
+      <td style="font-size:24px">${p.icon || '🎮'}</td>
+      <td><div style="font-weight:700">${p.title}</div><div style="font-size:11px;color:var(--text-muted)">${p.game||''} ${p.region?'• '+p.region:''}</div></td>
+      <td><span class="status-badge status-pending">${p.category||'—'}</span></td>
+      <td style="color:var(--gold);font-weight:700">${p.price} SAR${p.old_price?`<br><span style="font-size:11px;color:var(--text-dim);text-decoration:line-through">${p.old_price}</span>`:''}</td>
+      <td><span class="status-badge ${p.in_stock?'status-completed':'status-cancelled'}">${p.in_stock?'✅ متوفر':'❌ نفذ'}</span></td>
+      <td><div class="actions-cell">
+        <button class="btn-sm btn-edit" onclick="editProduct(${p.id})">تعديل</button>
+        <button class="btn-sm btn-delete" onclick="deleteProduct(${p.id},'${p.title.replace(/'/g,"\\'")}')">حذف</button>
+      </div></td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+// ─── ORDERS TABLE ───
+async function loadOrdersTable() {
+  const { data } = await _supabase.from('orders').select('*').order('id', { ascending: false });
+  const wrap = document.getElementById('orders-table-wrap');
+
+  if (!data || data.length === 0) {
+    wrap.innerHTML = '<p style="padding:24px;color:var(--text-muted)">لا توجد طلبات بعد</p>'; return;
+  }
+
+  wrap.innerHTML = `<table><thead><tr>
+    <th>#</th><th>المنتج</th><th>المبلغ</th><th>الحالة</th><th>تغيير الحالة</th>
+  </tr></thead><tbody>
+    ${data.map(o => `<tr>
+      <td style="color:var(--text-dim);font-size:12px">${o.id}</td>
+      <td><div style="font-weight:600">${o.product_title||'—'}</div></td>
+      <td style="color:var(--gold);font-weight:700">${o.amount||0} SAR</td>
+      <td><span class="status-badge status-${o.status||'pending'}">${statusLabel(o.status)}</span></td>
+      <td>
+        <select class="select-status" onchange="updateOrderStatus(${o.id}, this.value)">
+          <option value="pending" ${o.status==='pending'?'selected':''}>⏳ معلق</option>
+          <option value="completed" ${o.status==='completed'?'selected':''}>✅ مكتمل</option>
+          <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ ملغي</option>
+        </select>
+      </td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+// ─── SAVE PRODUCT ───
+async function saveProduct() {
+  const editId = document.getElementById('pf-edit-id').value;
+  const alertEl = document.getElementById('product-form-alert');
+
+  const data = {
+    title: document.getElementById('pf-title').value.trim(),
+    game: document.getElementById('pf-game').value.trim(),
+    price: parseFloat(document.getElementById('pf-price').value) || 0,
+    old_price: parseFloat(document.getElementById('pf-old-price').value) || null,
+    category: document.getElementById('pf-category').value,
+    region: document.getElementById('pf-region').value.trim() || null,
+    icon: document.getElementById('pf-icon').value.trim() || '🎮',
+    badge: document.getElementById('pf-badge').value.trim() || null,
+    img_class: document.getElementById('pf-img-class').value,
+    in_stock: document.getElementById('pf-in-stock').checked,
+    description: document.getElementById('pf-description').value.trim() || null,
+  };
+
+  if (!data.title || !data.price) {
+    alertEl.innerHTML = '<div class="alert alert-error">يرجى ملء العنوان والسعر على الأقل</div>'; return;
+  }
+
+  let error;
+  if (editId) {
+    ({ error } = await _supabase.from('products').update(data).eq('id', editId));
+  } else {
+    ({ error } = await _supabase.from('products').insert(data));
+  }
+
+  if (error) {
+    alertEl.innerHTML = `<div class="alert alert-error">خطأ: ${error.message}</div>`;
+  } else {
+    alertEl.innerHTML = `<div class="alert alert-success">${editId ? '✅ تم تحديث المنتج' : '✅ تم إضافة المنتج بنجاح!'}</div>`;
+    setTimeout(() => { resetProductForm(); showTab('products'); }, 1200);
+  }
+}
+
+async function editProduct(id) {
+  const { data } = await _supabase.from('products').select('*').eq('id', id).single();
+  if (!data) return;
+
+  document.getElementById('pf-edit-id').value = id;
+  document.getElementById('pf-title').value = data.title || '';
+  document.getElementById('pf-game').value = data.game || '';
+  document.getElementById('pf-price').value = data.price || '';
+  document.getElementById('pf-old-price').value = data.old_price || '';
+  document.getElementById('pf-category').value = data.category || 'gift_cards';
+  document.getElementById('pf-region').value = data.region || '';
+  document.getElementById('pf-icon').value = data.icon || '🎮';
+  document.getElementById('pf-badge').value = data.badge || '';
+  document.getElementById('pf-img-class').value = data.img_class || 'img-default';
+  document.getElementById('pf-in-stock').checked = data.in_stock !== false;
+  document.getElementById('pf-description').value = data.description || '';
+  document.getElementById('product-form-title').textContent = 'تعديل المنتج';
+  document.getElementById('product-form-alert').innerHTML = '';
+
+  showTab('add-product');
+}
+
+async function deleteProduct(id, title) {
+  if (!confirm(`هل أنت متأكد من حذف "${title}"؟`)) return;
+  const { error } = await _supabase.from('products').delete().eq('id', id);
+  if (!error) loadProductsTable();
+}
+
+async function updateOrderStatus(id, status) {
+  await _supabase.from('orders').update({ status }).eq('id', id);
+}
+
+function resetProductForm() {
+  document.getElementById('pf-edit-id').value = '';
+  ['pf-title','pf-game','pf-price','pf-old-price','pf-region','pf-icon','pf-badge','pf-description'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('pf-category').value = 'gift_cards';
+  document.getElementById('pf-img-class').value = 'img-default';
+  document.getElementById('pf-in-stock').checked = true;
+  document.getElementById('product-form-title').textContent = 'إضافة منتج جديد';
+  document.getElementById('product-form-alert').innerHTML = '';
+}
+
+function statusLabel(s) {
+  return s === 'completed' ? '✅ مكتمل' : s === 'cancelled' ? '❌ ملغي' : '⏳ معلق';
+}
+</script>
+</body>
+</html>

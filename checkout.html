@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>إتمام الطلب — Lgrinta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--gold:#D4AF37;--gold-dim:rgba(212,175,55,0.15);--bg:#070709;--bg2:#0d0d10;--surface:#15151e;--surface2:#1c1c28;--border:rgba(212,175,55,0.18);--text:#e8e8f0;--text-muted:#7a7a90;--text-dim:#50505f;--red:#ff3b5c;--radius:12px;--radius-lg:20px;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 50% 40% at 50% 0%,rgba(212,175,55,.05),transparent 60%);pointer-events:none;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(7,7,9,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--gold);text-decoration:none;}
+    .nav-links{display:flex;align-items:center;gap:8px;}
+    .nav-link{color:var(--text-muted);text-decoration:none;padding:8px 16px;border-radius:8px;font-size:14px;font-weight:500;transition:all .2s;border:1px solid transparent;}
+    .nav-link:hover{color:var(--gold);border-color:var(--border);}
+    .nav-auth-btn{background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;border:none;padding:9px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'Tajawal',sans-serif;}
+    #nav-user{display:none;align-items:center;gap:10px;}
+    #nav-admin{display:none;}
+    .user-chip{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);padding:7px 14px;border-radius:10px;font-size:13px;}
+    .user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8B6914);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#000;}
+    .btn-signout{color:var(--text-muted);background:none;border:none;cursor:pointer;font-size:12px;font-family:'Tajawal',sans-serif;}
+    #nav-login{display:flex;}
+
+    .page-wrap{max-width:1100px;margin:0 auto;padding:100px 40px 80px;position:relative;z-index:1;}
+    .page-title-section{margin-bottom:40px;}
+    .section-label{font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+    .page-title{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:1px;color:var(--text);}
+    .divider{width:60px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-top:10px;}
+
+    .checkout-layout{display:grid;grid-template-columns:1fr 380px;gap:32px;align-items:start;}
+
+    /* LEFT: Form */
+    .checkout-form-wrap{}
+    .form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;margin-bottom:20px;}
+    .form-card-title{font-size:16px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:8px;color:var(--text);}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .form-group{margin-bottom:0;}
+    .form-group.full{grid-column:1/-1;}
+    .form-label{font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:.5px;margin-bottom:8px;display:block;}
+    .form-input,.form-select,.form-textarea{width:100%;background:var(--surface2);border:1px solid rgba(255,255,255,.07);color:var(--text);border-radius:10px;padding:12px 14px;font-family:'Tajawal',sans-serif;font-size:14px;outline:none;transition:border-color .2s;}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
+    .form-input::placeholder{color:var(--text-dim);}
+    .form-select option{background:var(--surface2);}
+    .form-textarea{resize:vertical;min-height:80px;}
+
+    /* Payment methods */
+    .payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:4px;}
+    .payment-option{position:relative;}
+    .payment-option input{position:absolute;opacity:0;width:0;height:0;}
+    .payment-label{
+      display:flex;flex-direction:column;align-items:center;gap:8px;
+      background:var(--surface2);border:1px solid rgba(255,255,255,.07);
+      border-radius:12px;padding:16px 12px;cursor:pointer;transition:all .2s;text-align:center;
+    }
+    .payment-option input:checked + .payment-label{border-color:var(--gold);background:var(--gold-dim);}
+    .payment-label:hover{border-color:var(--border);}
+    .payment-icon{font-size:24px;}
+    .payment-name{font-size:12px;font-weight:700;color:var(--text);}
+
+    /* RIGHT: Order Summary */
+    .order-summary{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius-lg);padding:28px;
+      position:sticky;top:90px;
+    }
+    .summary-title{font-size:16px;font-weight:800;margin-bottom:20px;}
+    .summary-items{margin-bottom:20px;max-height:300px;overflow-y:auto;}
+    .summary-item{
+      display:flex;gap:12px;padding:12px 0;
+      border-bottom:1px solid rgba(255,255,255,.05);align-items:center;
+    }
+    .summary-item-icon{font-size:24px;flex-shrink:0;}
+    .summary-item-info{flex:1;}
+    .summary-item-name{font-size:13px;font-weight:600;margin-bottom:2px;}
+    .summary-item-sub{font-size:11px;color:var(--text-muted);}
+    .summary-item-price{font-size:15px;font-weight:800;color:var(--gold);white-space:nowrap;}
+
+    .summary-divider{height:1px;background:var(--border);margin:16px 0;}
+    .summary-row{display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px;}
+    .summary-row .label{color:var(--text-muted);}
+    .summary-row .value{font-weight:700;}
+    .summary-total{display:flex;justify-content:space-between;align-items:center;margin-top:16px;}
+    .total-label{font-size:15px;font-weight:700;}
+    .total-value{font-size:28px;font-weight:900;color:var(--gold);}
+
+    .btn-place-order{
+      width:100%;background:linear-gradient(135deg,var(--gold),#b8960c);
+      color:#000;border:none;padding:16px;border-radius:14px;
+      font-size:17px;font-weight:800;cursor:pointer;
+      font-family:'Tajawal',sans-serif;transition:all .2s;margin-top:20px;
+    }
+    .btn-place-order:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(212,175,55,.4);}
+    .btn-place-order:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+    .empty-cart-msg{text-align:center;padding:60px 20px;color:var(--text-muted);}
+    .empty-cart-msg .icon{font-size:64px;opacity:.3;margin-bottom:16px;}
+    .btn-shop{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700;margin-top:16px;transition:all .2s;}
+    .btn-shop:hover{background:var(--gold);color:#000;}
+
+    .success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+    .success-overlay.show{display:flex;}
+    .success-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:48px;text-align:center;max-width:480px;width:90%;}
+    .success-emoji{font-size:72px;margin-bottom:16px;}
+    .success-title{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);letter-spacing:2px;margin-bottom:12px;}
+    .success-text{font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:28px;}
+    .btn-success{background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;border:none;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;}
+
+    .error-msg{background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.3);color:var(--red);padding:12px 16px;border-radius:10px;font-size:13px;margin-top:12px;display:none;}
+    .error-msg.show{display:block;}
+
+    @media(max-width:900px){.checkout-layout{grid-template-columns:1fr;}.order-summary{position:static;}}
+    @media(max-width:600px){nav{padding:0 20px;}.page-wrap{padding:90px 20px 60px;}.form-grid{grid-template-columns:1fr;}.payment-methods{grid-template-columns:repeat(2,1fr);}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">LGRINTA</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">← المتجر</a>
+    <div id="nav-admin"><a href="admin/index.html" class="nav-link" style="color:var(--gold);">⚙ لوحة التحكم</a></div>
+    <div id="nav-login"><a href="login.html" class="nav-auth-btn">تسجيل الدخول</a></div>
+    <div id="nav-user">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">U</div>
+        <span id="nav-username">مستخدم</span>
+        <button class="btn-signout" onclick="signOut()">خروج</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-title-section">
+    <div class="section-label">الخطوة الأخيرة</div>
+    <h1 class="page-title">إتمام الطلب</h1>
+    <div class="divider"></div>
+  </div>
+
+  <div id="main-content"></div>
+</div>
+
+<!-- Success Overlay -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="success-emoji">🎉</div>
+    <h2 class="success-title">تم الطلب!</h2>
+    <p class="success-text">شكراً لطلبك من Lgrinta. سيتم التواصل معك قريباً لتأكيد الطلب وإتمام التسليم.</p>
+    <button class="btn-success" onclick="window.location.href='index.html'">العودة للمتجر</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cart.js"></script>
+<script>
+const WHATSAPP_NUMBER = '966500000000';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await updateNavAuth();
+
+  // Check if direct product checkout
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get('product');
+  
+  let checkoutItems = getCart();
+
+  if (productId) {
+    const { data } = await _supabase.from('products').select('*').eq('id', productId).single();
+    if (data) {
+      checkoutItems = [{ ...data, qty: 1 }];
+    }
+  }
+
+  if (checkoutItems.length === 0) {
+    document.getElementById('main-content').innerHTML = `
+      <div class="empty-cart-msg">
+        <div class="icon">🛒</div>
+        <h3>السلة فارغة</h3>
+        <p>لم تضف أي منتجات بعد</p>
+        <a href="index.html" class="btn-shop">← تصفح المنتجات</a>
+      </div>`;
+    return;
+  }
+
+  const total = checkoutItems.reduce((s, i) => s + i.price * (i.qty || 1), 0);
+
+  document.getElementById('main-content').innerHTML = `
+    <div class="checkout-layout">
+      <!-- FORM -->
+      <div class="checkout-form-wrap">
+        <div class="form-card">
+          <div class="form-card-title">👤 معلومات التواصل</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">الاسم الكامل</label>
+              <input type="text" class="form-input" id="f-name" placeholder="اسمك الكريم"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">رقم الجوال / واتساب</label>
+              <input type="tel" class="form-input" id="f-phone" placeholder="05xxxxxxxx"/>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">البريد الإلكتروني</label>
+              <input type="email" class="form-input" id="f-email" placeholder="email@example.com"/>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">معرّف الحساب / ID (إن وجد)</label>
+              <input type="text" class="form-input" id="f-gameid" placeholder="مثال: 123456789"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-title">💳 طريقة الدفع</div>
+          <div class="payment-methods">
+            <div class="payment-option">
+              <input type="radio" name="payment" id="pay-stc" value="stcpay" checked/>
+              <label class="payment-label" for="pay-stc">
+                <span class="payment-icon">💜</span>
+                <span class="payment-name">STC Pay</span>
+              </label>
+            </div>
+            <div class="payment-option">
+              <input type="radio" name="payment" id="pay-mada" value="mada"/>
+              <label class="payment-label" for="pay-mada">
+                <span class="payment-icon">💳</span>
+                <span class="payment-name">مدى</span>
+              </label>
+            </div>
+            <div class="payment-option">
+              <input type="radio" name="payment" id="pay-transfer" value="transfer"/>
+              <label class="payment-label" for="pay-transfer">
+                <span class="payment-icon">🏦</span>
+                <span class="payment-name">تحويل</span>
+              </label>
+            </div>
+            <div class="payment-option">
+              <input type="radio" name="payment" id="pay-paypal" value="paypal"/>
+              <label class="payment-label" for="pay-paypal">
+                <span class="payment-icon">🅿️</span>
+                <span class="payment-name">PayPal</span>
+              </label>
+            </div>
+            <div class="payment-option">
+              <input type="radio" name="payment" id="pay-crypto" value="crypto"/>
+              <label class="payment-label" for="pay-crypto">
+                <span class="payment-icon">₿</span>
+                <span class="payment-name">كريبتو</span>
+              </label>
+            </div>
+            <div class="payment-option">
+              <input type="radio" name="payment" id="pay-cash" value="cash"/>
+              <label class="payment-label" for="pay-cash">
+                <span class="payment-icon">💵</span>
+                <span class="payment-name">نقداً</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-title">📝 ملاحظات إضافية</div>
+          <textarea class="form-textarea" id="f-notes" placeholder="أي تعليمات أو ملاحظات للطلب..." style="margin-bottom:0;"></textarea>
+        </div>
+
+        <div class="error-msg" id="checkout-error"></div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="order-summary">
+        <div class="summary-title">📦 ملخص الطلب</div>
+        <div class="summary-items">
+          ${checkoutItems.map(item => `
+            <div class="summary-item">
+              <div class="summary-item-icon">${item.icon || '🎮'}</div>
+              <div class="summary-item-info">
+                <div class="summary-item-name">${item.title}</div>
+                <div class="summary-item-sub">${item.game || ''} ${item.qty > 1 ? `× ${item.qty}` : ''}</div>
+              </div>
+              <div class="summary-item-price">${(item.price * (item.qty || 1)).toFixed(0)} SAR</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row"><span class="label">المجموع</span><span class="value">${total.toFixed(0)} SAR</span></div>
+        <div class="summary-row"><span class="label">رسوم التوصيل</span><span class="value" style="color:#25D366">مجاني</span></div>
+        <div class="summary-divider"></div>
+        <div class="summary-total">
+          <span class="total-label">الإجمالي</span>
+          <span class="total-value">${total.toFixed(0)} SAR</span>
+        </div>
+        <button class="btn-place-order" id="place-order-btn" onclick="placeOrder(${JSON.stringify(checkoutItems).replace(/"/g,'&quot;')}, ${total})">
+          تأكيد الطلب ⚡
+        </button>
+        <p style="font-size:12px;color:var(--text-dim);text-align:center;margin-top:12px;">🔒 جميع المعلومات محمية ومشفرة</p>
+      </div>
+    </div>
+  `;
+});
+
+async function placeOrder(items, total) {
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const gameid = document.getElementById('f-gameid').value.trim();
+  const notes = document.getElementById('f-notes').value.trim();
+  const payment = document.querySelector('input[name="payment"]:checked')?.value || 'stcpay';
+  const errEl = document.getElementById('checkout-error');
+  const btn = document.getElementById('place-order-btn');
+
+  errEl.classList.remove('show');
+
+  if (!name || !phone) {
+    errEl.textContent = 'يرجى ملء الاسم ورقم الجوال على الأقل';
+    errEl.classList.add('show'); return;
+  }
+
+  btn.disabled = true; btn.textContent = 'جاري إرسال الطلب...';
+
+  const user = await getCurrentUser();
+
+  // Save each order item to DB
+  for (const item of items) {
+    try {
+      await _supabase.from('orders').insert({
+        user_id: user?.id || null,
+        product_id: item.id,
+        product_title: item.title,
+        amount: item.price * (item.qty || 1),
+        status: 'pending',
+      });
+    } catch(e) { console.log('Order save:', e); }
+  }
+
+  // WhatsApp message
+  const itemsList = items.map(i => `• ${i.title} × ${i.qty || 1} = ${(i.price*(i.qty||1)).toFixed(0)} SAR`).join('\n');
+  const msg = `🛒 طلب جديد من Lgrinta\n\n👤 الاسم: ${name}\n📱 الجوال: ${phone}\n📧 الإيميل: ${email||'—'}\n🎮 ID: ${gameid||'—'}\n💳 طريقة الدفع: ${payment}\n\n📦 المنتجات:\n${itemsList}\n\n💰 الإجمالي: ${total.toFixed(0)} SAR\n\n📝 ملاحظات: ${notes||'—'}`;
+  
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+
+  // Clear cart
+  clearCart();
+
+  // Show success
+  document.getElementById('success-overlay').classList.add('show');
+}
+</script>
+</body>
+</html>

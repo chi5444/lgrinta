@@ -8,7 +8,7 @@
   <style>
     :root{--gold:#D4AF37;--gold-dim:rgba(212,175,55,0.15);--bg:#070709;--bg2:#0d0d10;--surface:#15151e;--surface2:#1c1c28;--border:rgba(212,175,55,0.18);--text:#e8e8f0;--text-muted:#7a7a90;--red:#ff3b5c;}
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+    body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100svh;display:flex;align-items:center;justify-content:center;padding:20px;padding-top:40px;padding-bottom:40px;}
     body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 50% 70% at 50% 0%,rgba(212,175,55,.07),transparent 60%);pointer-events:none;}
 
     .auth-wrap{width:100%;max-width:440px;position:relative;z-index:1;}
@@ -50,7 +50,7 @@
   <p class="auth-tagline">متجرك الرقمي الأول</p>
 
   <div class="auth-card">
-    <h1 class="auth-title">مرحباً بعودتك 👋</h1>
+    <h1 class="auth-title">مرحباً بعودتك <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></h1>
     <p class="auth-subtitle">سجّل دخولك للمتابعة</p>
 
     <div class="error-msg" id="error-msg"></div>
@@ -107,7 +107,7 @@
       errEl.classList.add('show');
       btn.disabled = false; btn.textContent = 'تسجيل الدخول';
     } else {
-      sucEl.textContent = '✅ تم تسجيل الدخول بنجاح! جاري التحويل...';
+      sucEl.textContent = '<svg class="ic ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> تم تسجيل الدخول بنجاح! جاري التحويل...';
       sucEl.classList.add('show');
       setTimeout(() => window.location.href = 'index.html', 1000);
     }

@@ -228,8 +228,8 @@
     </div>
     <div class="cart-items" id="cart-items-list"></div>
     <div id="cart-footer-el" style="display:none" class="cart-footer">
-      <div class="cart-total-row"><span class="total-label">الإجمالي</span><span class="total-value" id="cart-total">0' + formatPrice('').replace(/[0-9.]+/, '') </span></div>
-      <button class="btn-checkout" onclick="window.location.href='checkout.html'">إتمام الطلب ←</button>
+      <div class="cart-total-row"><span class="total-label">الإجمالي</span><span class="total-value" id="cart-total">0 د.ت</span></div>
+      <button class="btn-checkout" onclick="window.location.href='checkout.html'">إتمام الطلب</button>
     </div>
   </div>
 </div>
@@ -279,8 +279,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         <div class="price-card">
           <div>
-            <div class="price-main">${product.price} <span class="price-currency">SAR</span></div>
-            ${product.old_price ? `<div class="price-old">${product.old_price}' + formatPrice('').replace(/[0-9.]+/, '') </div>` : ''}
+            <div class="price-main">${product.price} <span class="price-currency">د.ت</span></div>
+            ${product.old_price ? `<div class="price-old">${product.old_price} د.ت</div>` : ''}
           </div>
           ${discount ? `<div class="price-save">وفّر ${discount}%</div>` : ''}
         </div>
@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     sticky.className = 'actions-sticky';
     sticky.innerHTML = `
       <button class="btn-buy-now" onclick="window.location.href='checkout.html?product=${product.id}'"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> شراء الآن</button>
-      <a class="btn-whatsapp-sticky" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد طلب: ' + product.title + ' - السعر: ' + product.price + '' + formatPrice('').replace(/[0-9.]+/, '') ')}" target="_blank"><svg width="18" height="18" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.6a.75.75 0 0 0 .92.92l5.741-1.474A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.72 9.72 0 0 1-4.962-1.362l-.355-.21-3.685.946.982-3.584-.232-.37A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg></a>
+      <a class="btn-whatsapp-sticky" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد طلب: ' + product.title + ' - السعر: ' + product.price + ' د.ت )}" target="_blank"><svg width="18" height="18" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.6a.75.75 0 0 0 .92.92l5.741-1.474A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.72 9.72 0 0 1-4.962-1.362l-.355-.21-3.685.946.982-3.584-.232-.37A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg></a>
       <button class="btn-cart-sticky" onclick="addToCart({id:${product.id},title:'${safeTitle}',price:${product.price},icon:'${safeIcon}',game:'${safeGame}'})"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
     `;
     document.body.appendChild(sticky);
@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch(e){}
     document.getElementById('quick-order-form').style.display = 'none';
     document.getElementById('success-msg').classList.add('show');
-    const msg = ` طلب جديد\n\n ${data.product_title}\n ${data.product_price}' + formatPrice('').replace(/[0-9.]+/, '') \n ${data.name}\n ${data.phone}\n ID: ${data.account_id||'—'}\n ${data.payment}\n ${data.notes||'—'}`;
+    const msg = ` طلب جديد\n\n ${data.product_title}\n ${data.product_price} د.ت \n ${data.name}\n ${data.phone}\n ID: ${data.account_id||'—'}\n ${data.payment}\n ${data.notes||'—'}`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
   });
 
@@ -424,12 +424,12 @@ function renderCartSidebar() {
         <div class="cart-item-sub">${item.game||''} ${(item.qty||1)>1?`× ${item.qty}`:''}</div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-        <span class="ci-price">${(item.price*(item.qty||1)).toFixed(0)}' + formatPrice('').replace(/[0-9.]+/, '') </span>
+        <span class="ci-price">${(item.price*(item.qty||1)).toFixed(0)} د.ت </span>
         <button class="btn-remove" onclick="removeFromCart(${item.id});updateCartBadgeLocal();renderCartSidebar()"></button>
       </div>
     </div>`).join('');
   const total = cart.reduce((s,i)=>s+i.price*(i.qty||1),0);
-  totalEl.textContent = `${total.toFixed(0)}' + formatPrice('').replace(/[0-9.]+/, '') `;
+  totalEl.textContent = `${total.toFixed(0)} د.ت`;
   footerEl.style.display = 'block';
 }
 </script>

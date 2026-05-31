@@ -89,6 +89,21 @@
       .page-wrap{padding:90px 40px 60px;}
       .payment-grid{grid-template-columns:repeat(6,1fr);}
     }
+
+    /* ── ICON SIZES ── */
+    .ic{width:16px !important;height:16px !important;min-width:16px;min-height:16px;display:inline-block;vertical-align:middle;flex-shrink:0;overflow:hidden;}.ic-sm{width:14px !important;height:14px !important;display:inline-block;vertical-align:middle;}.ic-check,.ic-x{width:14px !important;height:14px !important;}
+    .ic-sm{width:14px;height:14px;display:inline-block;vertical-align:middle;flex-shrink:0;}
+    .ic-lg{width:20px;height:20px;display:inline-block;vertical-align:middle;flex-shrink:0;}
+    svg.ic,svg.ic-sm,svg.ic-lg{display:inline-block;}
+
+    .payment-icon-text{
+      font-family:'Inter','Tajawal',sans-serif;
+      font-size:11px;font-weight:900;letter-spacing:.5px;
+      color:var(--gold);background:var(--gold-dim);
+      border:1px solid var(--border);
+      padding:3px 6px;border-radius:5px;
+      display:block;text-align:center;
+    }
   </style>
 </head>
 <body>
@@ -108,7 +123,7 @@
 
 <div class="success-overlay" id="success-overlay">
   <div class="success-card">
-    <div class="success-emoji"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/></svg></div>
+    <div class="success-emoji"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/></svg></div>
     <h2 class="success-title">تم الطلب!</h2>
     <p class="success-text">شكراً لطلبك من Lgrinta. سيتم التواصل معك قريباً لتأكيد الطلب وإتمام التسليم عبر واتساب.</p>
     <button class="btn-success" onclick="window.location.href='index.html'">العودة للمتجر</button>
@@ -135,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!checkoutItems.length) {
     document.getElementById('main-content').innerHTML = `
       <div class="empty-cart-msg">
-        <div class="empty-cart-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+        <div class="empty-cart-icon"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
         <h3>السلة فارغة</h3>
         <p>لم تضف أي منتجات بعد</p>
         <a href="index.html" class="btn-shop">← تصفح المنتجات</a>
@@ -147,10 +162,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('main-content').innerHTML = `
     <!-- ORDER SUMMARY -->
     <div class="order-summary-top">
-      <div class="summary-title"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> ملخص الطلب</div>
+      <div class="summary-title"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> ملخص الطلب</div>
       ${checkoutItems.map(item => `
         <div class="summary-item">
-          <div class="summary-item-icon">${item.icon || '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="13" rx="5"/><path d="M8 12h2m-1-1v2M16 12h.01M18 12h.01"/></svg>'}</div>
+          <div class="summary-item-icon">${item.icon || '<svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="13" rx="5"/><path d="M8 12h2m-1-1v2M16 12h.01M18 12h.01"/></svg>'}</div>
           <div class="summary-item-info">
             <div class="summary-item-name">${item.title}</div>
             <div class="summary-item-sub">${item.game || ''} ${(item.qty||1) > 1 ? `× ${item.qty}` : ''}</div>
@@ -165,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     <!-- CONTACT INFO -->
     <div class="form-card">
-      <div class="form-card-title"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> معلومات التواصل</div>
+      <div class="form-card-title"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> معلومات التواصل</div>
       <div class="form-group">
         <label class="form-label">الاسم الكامل *</label>
         <input type="text" class="form-input" id="f-name" placeholder="اسمك الكريم" autocomplete="name"/>
@@ -186,28 +201,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     <!-- PAYMENT -->
     <div class="form-card">
-      <div class="form-card-title"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> طريقة الدفع</div>
+      <div class="form-card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        طريقة الدفع
+      </div>
       <div class="payment-grid">
-        <div class="payment-option"><input type="radio" name="payment" id="pay-stc" value="stcpay" checked/><label class="payment-label" for="pay-stc"><span class="payment-icon"><svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><span class="payment-name">STC Pay</span></label></div>
-        <div class="payment-option"><input type="radio" name="payment" id="pay-mada" value="mada"/><label class="payment-label" for="pay-mada"><span class="payment-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span><span class="payment-name">مدى</span></label></div>
-        <div class="payment-option"><input type="radio" name="payment" id="pay-transfer" value="transfer"/><label class="payment-label" for="pay-transfer"><span class="payment-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></span><span class="payment-name">تحويل</span></label></div>
-        <div class="payment-option"><input type="radio" name="payment" id="pay-paypal" value="paypal"/><label class="payment-label" for="pay-paypal"><span class="payment-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg></span><span class="payment-name">PayPal</span></label></div>
-        <div class="payment-option"><input type="radio" name="payment" id="pay-crypto" value="crypto"/><label class="payment-label" for="pay-crypto"><span class="payment-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg></span><span class="payment-name">كريبتو</span></label></div>
-        <div class="payment-option"><input type="radio" name="payment" id="pay-cash" value="cash"/><label class="payment-label" for="pay-cash"><span class="payment-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="22" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M17 12h.01M7 12h.01"/></svg></span><span class="payment-name">نقداً</span></label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="pay-stc" value="stcpay" checked/><label class="payment-label" for="pay-stc"><span class="payment-icon-text">STC</span><span class="payment-name">STC Pay</span></label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="pay-mada" value="mada"/><label class="payment-label" for="pay-mada"><span class="payment-icon-text">MADA</span><span class="payment-name">مدى</span></label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="pay-transfer" value="transfer"/><label class="payment-label" for="pay-transfer"><span class="payment-icon-text">TRF</span><span class="payment-name">تحويل</span></label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="pay-paypal" value="paypal"/><label class="payment-label" for="pay-paypal"><span class="payment-icon-text">PP</span><span class="payment-name">PayPal</span></label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="pay-crypto" value="crypto"/><label class="payment-label" for="pay-crypto"><span class="payment-icon-text">BTC</span><span class="payment-name">كريبتو</span></label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="pay-cash" value="cash"/><label class="payment-label" for="pay-cash"><span class="payment-icon-text">CASH</span><span class="payment-name">نقداً</span></label></div>
       </div>
     </div>
 
     <!-- NOTES -->
     <div class="form-card">
-      <div class="form-card-title"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> ملاحظات</div>
+      <div class="form-card-title"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> ملاحظات</div>
       <textarea class="form-textarea" id="f-notes" placeholder="أي تعليمات أو ملاحظات إضافية..."></textarea>
     </div>
 
     <div class="error-msg" id="checkout-error"></div>
     <button class="btn-place-order" id="place-order-btn" onclick="placeOrder(${JSON.stringify(checkoutItems).replace(/"/g,'&quot;')}, ${total})">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> تأكيد الطلب — ${total.toFixed(0)} د.ت
+      <svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> تأكيد الطلب — ${total.toFixed(0)} د.ت
     </button>
-    <p class="security-note"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> معلوماتك محمية ومشفرة بالكامل</p>
+    <p class="security-note"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> معلوماتك محمية ومشفرة بالكامل</p>
   `;
 });
 
@@ -232,7 +250,7 @@ async function placeOrder(items, total) {
   }
 
   const itemsList = items.map(i => `• ${i.title} × ${i.qty||1} = ${(i.price*(i.qty||1)).toFixed(0)} د.ت`).join('\n');
-  const msg = `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> طلب جديد من Lgrinta\n\n<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ${name}\n<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> ${phone}\n<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ${email||'—'}\n<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="13" rx="5"/><path d="M8 12h2m-1-1v2M16 12h.01M18 12h.01"/></svg> ID: ${gameid||'—'}\n<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> ${payment}\n\n<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> المنتجات:\n${itemsList}\n\n<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> الإجمالي: ${total.toFixed(0)} د.ت\n\n<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> ${notes||'—'}`;
+  const msg = ` طلب جديد من Lgrinta\n\n ${name}\n ${phone}\n ${email||'—'}\n ID: ${gameid||'—'}\n ${payment}\n\n المنتجات:\n${itemsList}\n\n الإجمالي: ${total.toFixed(0)} د.ت\n\n ${notes||'—'}`;
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 
   clearCart();

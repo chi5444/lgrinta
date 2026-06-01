@@ -6,206 +6,249 @@
   <title>تفاصيل المنتج — Lgrinta</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet"/>
   <style>
-    :root{--gold:#D4AF37;--gold-dim:rgba(212,175,55,0.15);--bg:#070709;--bg2:#0d0d10;--surface:#15151e;--surface2:#1c1c28;--border:rgba(212,175,55,0.18);--text:#e8e8f0;--text-muted:#7a7a90;--text-dim:#50505f;--red:#ff3b5c;--green:#25D366;--radius:12px;--radius-lg:18px;}
+    :root{
+      --gold:#D4AF37;--gold-dim:rgba(212,175,55,0.12);
+      --bg:#05050a;--bg2:#080810;
+      --surface:#111120;--surface2:#181828;
+      --border:rgba(212,175,55,0.15);--border2:rgba(255,255,255,0.06);
+      --text:#eeeef5;--text-muted:#7878a0;--text-dim:#404060;
+      --red:#ff3b5c;--green:#00e676;
+      --radius:12px;--radius-lg:18px;
+    }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;}
+    body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:90px;}
 
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(7,7,9,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;color:var(--gold);text-decoration:none;}
-    .nav-back{display:flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:600;background:var(--surface2);border:1px solid var(--border);padding:8px 14px;border-radius:10px;transition:all .2s;}
-    .nav-back:hover{color:var(--gold);border-color:var(--gold);}
-    .nav-cart-btn{position:relative;display:flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;}
-    #cart-badge{position:absolute;top:-7px;right:-7px;background:var(--gold);color:#000;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:900;display:none;align-items:center;justify-content:center;}
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+    .nav-logo img{height:36px;width:36px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(212,175,55,.4));}
+    .nav-logo span{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--gold);}
+    .nav-actions{display:flex;align-items:center;gap:8px;}
+    .nav-back{display:flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:600;background:var(--surface2);border:1px solid var(--border2);padding:8px 14px;border-radius:10px;}
+    .nav-back svg{width:14px;height:14px;}
+    .nav-cart-btn{position:relative;display:flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:8px 12px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;}
+    .nav-cart-btn svg{width:15px;height:15px;}
+    #cart-badge{position:absolute;top:-6px;right:-6px;background:var(--gold);color:#000;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:900;display:none;align-items:center;justify-content:center;}
 
-    .page-wrap{padding:76px 16px 20px;}
+    /* PAGE */
+    .page-wrap{padding:76px 16px 24px;}
 
     /* BREADCRUMB */
-    .breadcrumb{display:flex;align-items:center;gap:6px;margin-bottom:20px;font-size:12px;color:var(--text-muted);overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;margin-bottom:20px;font-size:12px;color:var(--text-muted);overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
     .breadcrumb::-webkit-scrollbar{display:none;}
     .breadcrumb a{color:var(--text-muted);text-decoration:none;}
-    .breadcrumb a:hover{color:var(--gold);}
+    .breadcrumb span{color:var(--text-dim);}
+
+    /* SPINNER */
+    .spinner-wrap{display:flex;justify-content:center;padding:80px 20px;}
+    .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ERROR */
+    .error-wrap{text-align:center;padding:80px 20px;}
+    .error-wrap h3{font-size:18px;color:var(--text-muted);margin-bottom:12px;}
+    .error-wrap a{color:var(--gold);text-decoration:none;}
 
     /* PRODUCT VISUAL */
-    .product-main-img{
+    .product-img-box{
       width:100%;aspect-ratio:16/9;border-radius:var(--radius-lg);
-      background:var(--surface);border:1px solid var(--border);
-      display:flex;align-items:center;justify-content:center;
-      font-size:80px;margin-bottom:20px;position:relative;overflow:hidden;
+      overflow:hidden;margin-bottom:20px;
+      background:var(--surface);border:1px solid var(--border2);
+      display:flex;align-items:center;justify-content:center;position:relative;
     }
-    .product-main-img::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(212,175,55,.08),transparent);}
-    .product-main-emoji{position:relative;z-index:1;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6));}
-    .product-badges-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
-    .badge-chip{background:var(--surface2);border:1px solid var(--border);padding:5px 12px;border-radius:8px;font-size:11px;font-weight:700;color:var(--text-muted);}
-    .badge-chip.gold{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
-    .badge-chip.red{background:rgba(255,59,92,.1);border-color:var(--red);color:var(--red);}
-    .badge-chip.green{background:rgba(37,211,102,.1);border-color:var(--green);color:var(--green);}
+    .product-img-box img{width:100%;height:100%;object-fit:cover;}
+    .product-img-box .img-placeholder{
+      width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+    }
+    .product-img-box .img-placeholder svg{width:56px;height:56px;color:var(--gold);opacity:.4;}
+    .img-ps{background:linear-gradient(135deg,#000d2e,#0040c0);}
+    .img-xbox{background:linear-gradient(135deg,#001400,#107000);}
+    .img-steam{background:linear-gradient(135deg,#0a1422,#1b3a5c);}
+    .img-pubg{background:linear-gradient(135deg,#1a0e00,#8B5000);}
+    .img-free{background:linear-gradient(135deg,#0e0018,#4a0090);}
+    .img-social{background:linear-gradient(135deg,#050510,#0a0a30);}
+    .img-itunes{background:linear-gradient(135deg,#1a0000,#8B0010);}
+    .img-google{background:linear-gradient(135deg,#000a1a,#00287a);}
+    .img-default{background:linear-gradient(135deg,#0e0e1a,#1a1a2e);}
+
+    /* BADGES ROW */
+    .badges-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+    .badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;}
+    .badge svg{width:12px;height:12px;}
+    .badge-gold{background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);}
+    .badge-red{background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.25);color:var(--red);}
+    .badge-green{background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.25);color:var(--green);}
+    .badge-neutral{background:var(--surface2);border:1px solid var(--border2);color:var(--text-muted);}
 
     /* PRODUCT INFO */
-    .product-detail-game{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
-    .product-detail-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,7vw,44px);letter-spacing:1px;color:var(--text);line-height:1.05;margin-bottom:16px;}
+    .product-game-label{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+    .product-title-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,7vw,42px);letter-spacing:1px;color:var(--text);line-height:1.05;margin-bottom:16px;}
 
-    .price-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:20px;}
-    .price-main{font-size:32px;font-weight:900;color:var(--gold);}
-    .price-currency{font-size:14px;font-weight:500;}
-    .price-old{font-size:16px;color:var(--text-dim);text-decoration:line-through;}
-    .price-save{background:rgba(255,59,92,.12);border:1px solid rgba(255,59,92,.3);color:var(--red);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:800;margin-right:auto;}
+    /* PRICE CARD */
+    .price-card{
+      display:flex;align-items:center;gap:14px;
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:18px;
+    }
+    .price-main{font-size:30px;font-weight:900;color:var(--gold);}
+    .price-curr{font-size:14px;font-weight:500;}
+    .price-old{font-size:15px;color:var(--text-dim);text-decoration:line-through;}
+    .price-save{background:rgba(255,59,92,.12);border:1px solid rgba(255,59,92,.25);color:var(--red);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:800;margin-right:auto;}
 
-    .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
-    .meta-item{background:var(--surface2);border:1px solid rgba(255,255,255,.05);border-radius:12px;padding:12px;}
+    /* META GRID */
+    .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+    .meta-item{background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:12px;}
     .meta-label{font-size:10px;color:var(--text-dim);margin-bottom:3px;letter-spacing:.5px;}
-    .meta-value{font-size:13px;font-weight:700;color:var(--text);}
+    .meta-value{font-size:13px;font-weight:700;}
 
-    .product-desc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;margin-bottom:20px;}
-    .product-desc h4{font-size:13px;font-weight:800;color:var(--gold);margin-bottom:10px;}
-    .product-desc p{font-size:14px;color:var(--text-muted);line-height:1.8;}
-    .product-desc ul{padding-right:18px;margin-top:10px;}
-    .product-desc li{font-size:13px;color:var(--text-muted);margin-bottom:6px;}
+    /* DESCRIPTION */
+    .desc-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:18px;margin-bottom:20px;}
+    .desc-card h4{font-size:13px;font-weight:800;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+    .desc-card h4 svg{width:14px;height:14px;}
+    .desc-card p{font-size:14px;color:var(--text-muted);line-height:1.8;}
+    .desc-card ul{padding-right:18px;margin-top:10px;}
+    .desc-card li{font-size:13px;color:var(--text-muted);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+    .desc-card li svg{width:12px;height:12px;color:var(--green);flex-shrink:0;}
 
-    /* ACTION BUTTONS */
-    .actions-sticky{
+    /* QUICK ORDER FORM */
+    .form-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px;}
+    .form-card-title{font-size:14px;font-weight:800;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+    .form-card-title svg{width:15px;height:15px;}
+    .form-group{margin-bottom:14px;}
+    .form-label{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:.5px;margin-bottom:7px;display:block;}
+    .form-input,.form-select,.form-textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:12px 14px;font-family:'Tajawal',sans-serif;font-size:16px;outline:none;transition:border-color .2s;-webkit-appearance:none;}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
+    .form-input::placeholder{color:var(--text-dim);}
+    .form-select option{background:var(--surface2);}
+    .form-textarea{resize:vertical;min-height:72px;}
+    .btn-submit-form{width:100%;background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;border:none;padding:14px;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s;}
+    .btn-submit-form:disabled{opacity:.6;cursor:not-allowed;}
+    .success-box{display:none;text-align:center;padding:20px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.25);border-radius:12px;margin-top:12px;}
+    .success-box.show{display:block;}
+    .success-box h4{color:var(--green);font-size:15px;font-weight:800;margin-bottom:6px;}
+    .success-box p{font-size:13px;color:var(--text-muted);}
+
+    /* RELATED */
+    .related-section{margin-top:40px;}
+    .section-eyebrow{font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:6px;}
+    .section-heading{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;margin-bottom:8px;}
+    .section-divider{width:40px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;margin-bottom:18px;}
+    .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+
+    /* PRODUCT CARD (for related) */
+    .product-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:all .3s;-webkit-tap-highlight-color:transparent;}
+    .product-card:active{transform:scale(.97);}
+    .p-img-wrap{aspect-ratio:4/3;overflow:hidden;position:relative;}
+    .p-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+    .p-img img{width:100%;height:100%;object-fit:cover;}
+    .p-img svg{width:36px;height:36px;color:var(--gold);opacity:.5;}
+    .p-badge{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;font-size:9px;font-weight:800;padding:3px 8px;border-radius:100px;}
+    .p-info{padding:12px;}
+    .p-game{font-size:10px;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:4px;}
+    .p-title{font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.3;}
+    .p-price{font-size:15px;font-weight:900;color:var(--gold);}
+
+    /* STICKY BOTTOM ACTIONS */
+    .sticky-actions{
       position:fixed;bottom:0;left:0;right:0;z-index:100;
-      background:rgba(7,7,9,.95);backdrop-filter:blur(20px);
+      background:rgba(5,5,10,.96);backdrop-filter:blur(20px);
       border-top:1px solid var(--border);
       padding:12px 16px;
       display:flex;gap:10px;
     }
-    .btn-buy-now{
+    .btn-buy{
       flex:1;background:linear-gradient(135deg,var(--gold),#b8960c);
       color:#000;border:none;padding:14px 16px;border-radius:14px;
-      font-size:16px;font-weight:800;cursor:pointer;
+      font-size:15px;font-weight:800;cursor:pointer;
       display:flex;align-items:center;justify-content:center;gap:8px;
-      transition:all .2s;font-family:'Tajawal',sans-serif;
+      font-family:'Tajawal',sans-serif;transition:all .2s;
     }
-    .btn-whatsapp-sticky{
-      background:var(--green);color:#fff;border:none;
+    .btn-buy svg{width:16px;height:16px;}
+    .btn-wa{
+      background:#25D366;color:#fff;border:none;
       width:52px;height:52px;border-radius:14px;
       display:flex;align-items:center;justify-content:center;
-      font-size:24px;cursor:pointer;text-decoration:none;
-      transition:all .2s;flex-shrink:0;
+      cursor:pointer;text-decoration:none;flex-shrink:0;
     }
-    .btn-whatsapp-sticky:hover{background:#1ebe59;}
+    .btn-wa svg{width:22px;height:22px;}
     .btn-cart-sticky{
       background:var(--surface2);color:var(--text);
-      border:1px solid var(--border);
+      border:1px solid var(--border2);
       width:52px;height:52px;border-radius:14px;
       display:flex;align-items:center;justify-content:center;
-      font-size:22px;cursor:pointer;transition:all .2s;flex-shrink:0;
+      cursor:pointer;flex-shrink:0;
     }
-    .btn-cart-sticky:hover{border-color:var(--gold);}
+    .btn-cart-sticky svg{width:18px;height:18px;}
 
-    /* QUICK ORDER FORM */
-    .quick-order-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:24px;}
-    .quick-order-title{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-    .form-group{margin-bottom:14px;}
-    .form-label{font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:.5px;margin-bottom:7px;display:block;}
-    .form-input,.form-select,.form-textarea{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:12px 14px;font-family:'Tajawal',sans-serif;font-size:15px;outline:none;transition:border-color .2s;-webkit-appearance:none;}
-    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
-    .form-input::placeholder{color:var(--text-dim);}
-    .form-textarea{resize:vertical;min-height:72px;}
-    .form-select option{background:var(--surface2);}
-    .btn-submit{width:100%;background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;border:none;padding:14px;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s;}
-    .btn-submit:disabled{opacity:.6;cursor:not-allowed;}
-
-    .success-msg{display:none;text-align:center;padding:20px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.3);border-radius:12px;margin-top:12px;}
-    .success-msg.show{display:block;}
-    .success-msg h4{color:var(--green);font-size:16px;font-weight:800;margin-bottom:6px;}
-    .success-msg p{font-size:13px;color:var(--text-muted);}
-
-    /* RELATED */
-    .related-section{margin-top:40px;}
-    .related-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-
-    /* PRODUCT CARD mini */
-    .product-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:all .3s;-webkit-tap-highlight-color:transparent;}
-    .product-card:active{transform:scale(.98);}
-    .product-img-wrap{position:relative;aspect-ratio:4/3;overflow:hidden;}
-    .product-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--surface2);}
-    .img-default{background:linear-gradient(135deg,#12121a,#1c1c28);}
-    .img-ps{background:linear-gradient(135deg,#00339922,#003397);}
-    .img-xbox{background:linear-gradient(135deg,#10700022,#107000);}
-    .img-steam{background:linear-gradient(135deg,#1b2a3b,#2a475e);}
-    .img-pubg{background:linear-gradient(135deg,#2d1f0e,#f4a018);}
-    .img-free{background:linear-gradient(135deg,#1a0d2e,#6a0dad);}
-    .img-social{background:linear-gradient(135deg,#1a1a2e,#16213e);}
-    .img-itunes{background:linear-gradient(135deg,#1c0a00,#fc3c44);}
-    .img-google{background:linear-gradient(135deg,#0a1628,#4285f4);}
-    .product-icon{font-size:36px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5));}
-    .product-badge{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;font-size:9px;font-weight:800;padding:3px 8px;border-radius:5px;text-transform:uppercase;}
-    .product-discount{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:5px;}
-    .product-info{padding:12px;}
-    .product-meta{display:flex;gap:6px;margin-bottom:4px;}
-    .product-game{font-size:10px;color:var(--gold);font-weight:700;text-transform:uppercase;}
-    .product-region{font-size:10px;color:var(--text-dim);background:var(--surface2);padding:2px 6px;border-radius:4px;}
-    .product-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.3;}
-    .product-pricing{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
-    .product-price{font-size:15px;font-weight:900;color:var(--gold);}
-    .currency{font-size:11px;}
-    .product-old-price{font-size:11px;color:var(--text-dim);text-decoration:line-through;}
-    .btn-add-cart{width:100%;background:var(--surface2);color:var(--text);border:1px solid var(--border);padding:8px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s;font-family:'Tajawal',sans-serif;}
-    .btn-add-cart:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
-
-    .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:40px auto;}
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    /* Cart sidebar (bottom sheet on mobile) */
+    /* CART SIDEBAR */
     .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);}
     .cart-overlay.open{opacity:1;pointer-events:all;}
     .cart-sidebar{position:fixed;bottom:0;left:0;right:0;max-height:90svh;background:var(--bg2);border-top:1px solid var(--border);border-radius:24px 24px 0 0;z-index:301;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
     .cart-overlay.open .cart-sidebar{transform:translateY(0);}
-    .cart-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
-    .cart-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-    .cart-header-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;color:var(--gold);}
-    .btn-close-cart{background:var(--surface2);border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
-    .cart-items{flex:1;overflow-y:auto;padding:16px 20px;}
-    .cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05);}
-    .cart-item-icon{width:46px;height:46px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-    .cart-item-info{flex:1;min-width:0;}
-    .cart-item-name{font-size:13px;font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .cart-item-sub{font-size:11px;color:var(--text-muted);}
-    .ci-price{font-size:15px;font-weight:900;color:var(--gold);white-space:nowrap;}
-    .btn-remove{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:18px;padding:4px;}
-    .cart-empty{text-align:center;padding:48px 20px;color:var(--text-muted);}
-    .cart-footer{padding:16px 20px;border-top:1px solid var(--border);}
-    .cart-total-row{display:flex;justify-content:space-between;margin-bottom:14px;}
-    .total-label{font-size:14px;color:var(--text-muted);}
-    .total-value{font-size:22px;font-weight:900;color:var(--gold);}
-    .btn-checkout{width:100%;background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;border:none;padding:15px;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;}
+    .cart-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+    .cart-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+    .cart-header-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--gold);}
+    .btn-close-cart{background:var(--surface2);border:1px solid var(--border2);color:var(--text);width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .btn-close-cart svg{width:14px;height:14px;}
+    .cart-items{flex:1;overflow-y:auto;padding:14px 20px;}
+    .cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+    .c-icon{width:46px;height:46px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+    .c-icon img{width:100%;height:100%;object-fit:cover;}
+    .c-icon svg{width:20px;height:20px;color:var(--gold);}
+    .c-info{flex:1;min-width:0;}
+    .c-name{font-size:13px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .c-sub{font-size:11px;color:var(--text-muted);}
+    .c-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
+    .c-price{font-size:14px;font-weight:900;color:var(--gold);white-space:nowrap;}
+    .btn-rm{background:none;border:none;color:var(--text-dim);cursor:pointer;padding:2px;}
+    .btn-rm svg{width:15px;height:15px;}
+    .btn-rm:hover{color:var(--red);}
+    .cart-empty-msg{text-align:center;padding:48px 20px;color:var(--text-muted);}
+    .cart-empty-msg svg{width:40px;height:40px;margin:0 auto 12px;opacity:.2;}
+    .cart-footer{padding:14px 20px;border-top:1px solid var(--border);}
+    .cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+    .cart-total-label{font-size:14px;color:var(--text-muted);}
+    .cart-total-value{font-size:22px;font-weight:900;color:var(--gold);}
+    .btn-checkout{width:100%;background:linear-gradient(135deg,var(--gold),#b8960c);color:#000;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;}
 
     @media(min-width:768px){
-      body{padding-bottom:0;}
       nav{height:70px;padding:0 40px;}
       .page-wrap{max-width:1100px;margin:0 auto;padding:90px 40px 80px;}
       .product-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:start;}
-      .product-main-img{aspect-ratio:1;font-size:120px;position:sticky;top:90px;}
-      .actions-sticky{position:static;background:none;backdrop-filter:none;border:none;padding:0;flex-wrap:wrap;}
-      .btn-buy-now{flex:none;width:100%;}
-      .btn-whatsapp-sticky{width:auto;padding:14px 20px;border-radius:14px;gap:8px;font-size:15px;}
-      .btn-whatsapp-sticky::after{content:'طلب عبر واتساب';}
-      .btn-cart-sticky{width:auto;padding:14px 20px;border-radius:14px;gap:8px;font-size:15px;}
-      .btn-cart-sticky::after{content:'أضف للسلة';}
+      .product-visual{position:sticky;top:90px;}
+      .product-img-box{aspect-ratio:1;}
+      .sticky-actions{position:static;background:none;backdrop-filter:none;border:none;padding:0;flex-wrap:wrap;}
+      .btn-buy{font-size:16px;}
+      .btn-wa,.btn-cart-sticky{width:auto;padding:14px 20px;}
       .related-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
       .cart-sidebar{top:0;bottom:auto;left:auto;right:0;width:400px;max-height:100vh;border-radius:0;border-top:none;border-left:1px solid var(--border);transform:translateX(100%);}
       .cart-overlay.open .cart-sidebar{transform:translateX(0);}
       .cart-handle{display:none;}
+      body{padding-bottom:0;}
     }
-
-    /* ── ICON SIZES ── */
-    .ic{width:16px !important;height:16px !important;min-width:16px;min-height:16px;display:inline-block;vertical-align:middle;flex-shrink:0;overflow:hidden;}.ic-sm{width:14px !important;height:14px !important;display:inline-block;vertical-align:middle;}.ic-check,.ic-x{width:14px !important;height:14px !important;}
-    .ic-sm{width:14px;height:14px;display:inline-block;vertical-align:middle;flex-shrink:0;}
-    .ic-lg{width:20px;height:20px;display:inline-block;vertical-align:middle;flex-shrink:0;}
-    svg.ic,svg.ic-sm,svg.ic-lg{display:inline-block;}
   </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none"><img src="img.png" alt="Lgrinta" style="height:38px;width:38px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(212,175,55,.4))"/><span style="font-family:Bebas Neue,sans-serif;font-size:22px;letter-spacing:3px;color:#D4AF37">LGRINTA</span></a>
-  <div style="display:flex;gap:8px;align-items:center;">
-    <a href="index.html" class="nav-back">← المتجر</a>
-    <a href="#" class="nav-cart-btn" onclick="toggleCart();return false;"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> <span id="cart-badge">0</span></a>
+  <a href="index.html" class="nav-logo">
+    <img src="img.png" alt="Lgrinta"/>
+    <span>LGRINTA</span>
+  </a>
+  <div class="nav-actions">
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      المتجر
+    </a>
+    <a href="#" class="nav-cart-btn" onclick="toggleCart();return false;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span id="cart-badge">0</span>
+    </a>
   </div>
 </nav>
 
+<!-- PAGE -->
 <div class="page-wrap">
   <div class="breadcrumb">
     <a href="index.html">الرئيسية</a>
@@ -214,131 +257,227 @@
     <span>›</span>
     <span id="breadcrumb-title">جاري التحميل...</span>
   </div>
-
-  <div id="product-page-content"><div class="spinner"></div></div>
+  <div id="product-content">
+    <div class="spinner-wrap"><div class="spinner"></div></div>
+  </div>
 </div>
 
-<!-- CART SIDEBAR -->
+<!-- CART -->
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()">
   <div class="cart-sidebar" onclick="event.stopPropagation()">
     <div class="cart-handle"></div>
     <div class="cart-header">
-      <span class="cart-header-title"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> السلة</span>
-      <button class="btn-close-cart" onclick="toggleCart()"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <span class="cart-header-title">السلة</span>
+      <button class="btn-close-cart" onclick="toggleCart()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
-    <div class="cart-items" id="cart-items-list"></div>
-    <div id="cart-footer-el" style="display:none" class="cart-footer">
-      <div class="cart-total-row"><span class="total-label">الإجمالي</span><span class="total-value" id="cart-total">0 د.ت</span></div>
-      <button class="btn-checkout" onclick="window.location.href='checkout.html'">إتمام الطلب</button>
+    <div class="cart-items" id="cart-list"></div>
+    <div id="cart-foot" style="display:none" class="cart-footer">
+      <div class="cart-total-row">
+        <span class="cart-total-label">الإجمالي</span>
+        <span class="cart-total-value" id="cart-total-val">0 د.ت</span>
+      </div>
+      <button class="btn-checkout" onclick="location.href='checkout.html'">إتمام الطلب</button>
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="js/supabase.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/cart.js"></script>
-<script src="js/products.js"></script>
 <script>
-const WHATSAPP_NUMBER = '21696672771';
+// ── CONFIG ──────────────────────────────────────────
+const SUPABASE_URL = 'https://xkkwoktedeyatabfqnpc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhra3dva3RlZGV5YXRhYmZxbnBjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMDM5NTUsImV4cCI6MjA5NDg3OTk1NX0.kzEzioDjV3ZPV13bsTQTA0i6QiwELolArdcpRgKwWYM';
+const WA = '21696672771';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// ── CART ─────────────────────────────────────────────
+const CART_KEY = 'lgrinta_cart';
+function getCart(){ return JSON.parse(localStorage.getItem(CART_KEY)||'[]'); }
+function saveCart(c){ localStorage.setItem(CART_KEY,JSON.stringify(c)); updateBadge(); }
+function addToCart(p){
+  const cart = getCart();
+  const ex = cart.find(i=>i.id===p.id);
+  if(ex){ ex.qty=(ex.qty||1)+1; } else { cart.push({...p,qty:1}); }
+  saveCart(cart);
+  showToast('تمت الإضافة للسلة');
+}
+function removeFromCart(id){ saveCart(getCart().filter(i=>i.id!==id)); renderCart(); }
+function cartTotal(){ return getCart().reduce((s,i)=>s+i.price*(i.qty||1),0); }
+function updateBadge(){
+  const n = getCart().reduce((s,i)=>s+(i.qty||1),0);
+  const b = document.getElementById('cart-badge');
+  if(b){ b.textContent=n; b.style.display=n>0?'flex':'none'; }
+}
+function showToast(msg){
+  let t=document.getElementById('lgrinta-toast');
+  if(!t){
+    t=document.createElement('div');t.id='lgrinta-toast';
+    t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#D4AF37;color:#000;padding:10px 20px;border-radius:12px;font-weight:800;font-size:14px;z-index:9999;transition:opacity .3s;white-space:nowrap;box-shadow:0 4px 20px rgba(212,175,55,.4)';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg; t.style.opacity='1';
+  clearTimeout(t._t); t._t=setTimeout(()=>t.style.opacity='0',2000);
+}
+
+// ── CART SIDEBAR ─────────────────────────────────────
+function toggleCart(){
+  document.getElementById('cart-overlay').classList.toggle('open');
+  renderCart();
+}
+function renderCart(){
+  const cart=getCart();
+  const list=document.getElementById('cart-list');
+  const foot=document.getElementById('cart-foot');
+  const tot=document.getElementById('cart-total-val');
+  if(!list)return;
+  if(!cart.length){
+    list.innerHTML=`<div class="cart-empty-msg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>السلة فارغة</p></div>`;
+    foot.style.display='none'; return;
+  }
+  list.innerHTML=cart.map(item=>`
+    <div class="cart-item">
+      <div class="c-icon">
+        ${item.image_url?`<img src="${item.image_url}" alt="" loading="lazy"/>`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="13" rx="5"/><path d="M8 12h2m-1-1v2M16 12h.01M18 12h.01"/></svg>`}
+      </div>
+      <div class="c-info">
+        <div class="c-name">${item.title}</div>
+        <div class="c-sub">${item.game||''} ${(item.qty||1)>1?'× '+item.qty:''}</div>
+      </div>
+      <div class="c-right">
+        <span class="c-price">${(item.price*(item.qty||1)).toFixed(2)} د.ت</span>
+        <button class="btn-rm" onclick="removeFromCart(${item.id});renderCart()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+  tot.textContent=cartTotal().toFixed(2)+' د.ت';
+  foot.style.display='block';
+}
+
+// ── CAT ICON ─────────────────────────────────────────
+function getCatSVG(cat){
+  const icons={
+    gift_cards:'<path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
+    games:'<rect x="2" y="7" width="20" height="13" rx="5"/><path d="M8 12h2m-1-1v2M16 12h.01M18 12h.01"/>',
+    social:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    subscriptions:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    top_up:'<polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="8.5"/><polyline points="22 8.5 12 8.5 2 8.5"/>',
+    accounts:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>',
+  };
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${icons[cat]||icons['games']}</svg>`;
+}
+
+// ── MAIN ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
-  updateCartBadgeLocal();
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  if (!id) { window.location.href = 'index.html'; return; }
+  updateBadge();
 
-  const { data: product, error } = await _supabase.from('products').select('*').eq('id', id).single();
-  if (error || !product) { window.location.href = 'index.html'; return; }
+  const id = new URLSearchParams(location.search).get('id');
+  if (!id) { location.href='index.html'; return; }
 
-  document.title = `${product.title} — Lgrinta`;
-  document.getElementById('breadcrumb-title').textContent = product.title;
+  const { data: p, error } = await db.from('products').select('*').eq('id', id).single();
 
-  const discount = product.old_price ? Math.round((1 - product.price / product.old_price) * 100) : null;
-  const safeTitle = product.title.replace(/'/g, "\\'");
-  const safeIcon = (product.icon || '<svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="13" rx="5"/><path d="M8 12h2m-1-1v2M16 12h.01M18 12h.01"/></svg>').replace(/'/g, "\\'");
-  const safeGame = (product.game || '').replace(/'/g, "\\'");
+  if (error || !p) {
+    document.getElementById('product-content').innerHTML = `
+      <div class="error-wrap">
+        <h3>المنتج غير موجود</h3>
+        <a href="index.html">← العودة للمتجر</a>
+      </div>`;
+    return;
+  }
 
-  document.getElementById('product-page-content').innerHTML = `
+  document.title = p.title + ' — Lgrinta';
+  document.getElementById('breadcrumb-title').textContent = p.title;
+
+  const discount = p.old_price ? Math.round((1-p.price/p.old_price)*100) : null;
+  const imgClass = p.img_class || 'img-default';
+  const waMsg = encodeURIComponent('مرحبا، أريد طلب: ' + p.title + ' - السعر: ' + p.price + ' د.ت');
+
+  document.getElementById('product-content').innerHTML = `
     <div class="product-layout">
       <div class="product-visual">
-        <div class="product-main-img ${product.img_class || 'img-default'}">
-          <span class="product-main-emoji">${product.icon || '<svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="13" rx="5"/><path d="M8 12h2m-1-1v2M16 12h.01M18 12h.01"/></svg>'}</span>
+        <div class="product-img-box ${!p.image_url ? imgClass : ''}">
+          ${p.image_url
+            ? `<img src="${p.image_url}" alt="${p.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="img-placeholder ${imgClass}" style="display:none">${getCatSVG(p.category)}</div>`
+            : `<div class="img-placeholder">${getCatSVG(p.category)}</div>`
+          }
         </div>
-        <div class="product-badges-row">
-          ${product.badge ? `<span class="badge-chip gold"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${product.badge}</span>` : ''}
-          ${discount ? `<span class="badge-chip red">خصم ${discount}%</span>` : ''}
-          ${product.region ? `<span class="badge-chip"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> ${product.region}</span>` : ''}
-          <span class="badge-chip ${product.in_stock ? 'green' : 'red'}">${product.in_stock ? '<svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> متوفر' : '<svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> نفذ'}</span>
+        <div class="badges-row">
+          ${p.badge?`<span class="badge badge-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${p.badge}</span>`:''}
+          ${discount?`<span class="badge badge-red">خصم ${discount}%</span>`:''}
+          ${p.region?`<span class="badge badge-neutral">${p.region}</span>`:''}
+          <span class="badge ${p.in_stock?'badge-green':'badge-red'}">${p.in_stock?'متوفر':'نفذ'}</span>
         </div>
       </div>
 
       <div class="product-details">
-        <div class="product-detail-game">${product.game || product.category || ''}</div>
-        <h1 class="product-detail-title">${product.title}</h1>
+        <div class="product-game-label">${p.game||p.category||''}</div>
+        <h1 class="product-title-h">${p.title}</h1>
 
         <div class="price-card">
           <div>
-            <div class="price-main">${product.price} <span class="price-currency">د.ت</span></div>
-            ${product.old_price ? `<div class="price-old">${product.old_price} د.ت</div>` : ''}
+            <div class="price-main">${p.price} <span class="price-curr">د.ت</span></div>
+            ${p.old_price?`<div class="price-old">${p.old_price} د.ت</div>`:''}
           </div>
-          ${discount ? `<div class="price-save">وفّر ${discount}%</div>` : ''}
+          ${discount?`<div class="price-save">وفّر ${discount}%</div>`:''}
         </div>
 
         <div class="meta-grid">
-          <div class="meta-item"><div class="meta-label">القسم</div><div class="meta-value">${product.category || '—'}</div></div>
-          <div class="meta-item"><div class="meta-label">اللعبة / الخدمة</div><div class="meta-value">${product.game || '—'}</div></div>
-          <div class="meta-item"><div class="meta-label">المنطقة</div><div class="meta-value">${product.region || 'عالمي'}</div></div>
-          <div class="meta-item"><div class="meta-label">الحالة</div><div class="meta-value" style="color:${product.in_stock ? 'var(--green)' : 'var(--red)'}">${product.in_stock ? 'متوفر <svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : 'نفذ <svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'}</div></div>
+          <div class="meta-item"><div class="meta-label">القسم</div><div class="meta-value">${p.category||'—'}</div></div>
+          <div class="meta-item"><div class="meta-label">اللعبة</div><div class="meta-value">${p.game||'—'}</div></div>
+          <div class="meta-item"><div class="meta-label">المنطقة</div><div class="meta-value">${p.region||'عالمي'}</div></div>
+          <div class="meta-item"><div class="meta-label">الحالة</div><div class="meta-value" style="color:${p.in_stock?'var(--green)':'var(--red)'}">${p.in_stock?'متوفر':'نفذ'}</div></div>
         </div>
 
-        <div class="product-desc">
-          <h4><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> وصف المنتج</h4>
-          <p>${product.description || 'منتج رقمي عالي الجودة. يتم التسليم فورياً بعد إتمام الدفع. للاستفسار تواصل معنا عبر واتساب.'}</p>
-          <ul>
-            <li><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> تسليم فوري بعد الدفع</li>
-            <li><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> معاملة آمنة ومضمونة</li>
-            <li style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg> دعم على مدار الساعة</li>
+        <div class="desc-card">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg> وصف المنتج</h4>
+          <p>${p.description||'منتج رقمي عالي الجودة. يتم التسليم فورياً بعد إتمام الدفع.'}</p>
+          <ul style="margin-top:12px">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polyline points="20 6 9 17 4 12"/></svg> تسليم فوري بعد الدفع</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polyline points="20 6 9 17 4 12"/></svg> مضمون 100%</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polyline points="20 6 9 17 4 12"/></svg> دعم عبر واتساب 24/7</li>
           </ul>
         </div>
 
-        <!-- QUICK ORDER FORM -->
-        <div class="quick-order-card">
-          <div class="quick-order-title"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> طلب سريع</div>
-          <form id="quick-order-form">
+        <!-- QUICK ORDER -->
+        <div class="form-card">
+          <div class="form-card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+            طلب سريع
+          </div>
+          <div id="quick-form">
             <div class="form-group">
               <label class="form-label">الاسم الكامل *</label>
-              <input type="text" class="form-input" name="name" placeholder="اسمك الكريم" required/>
+              <input type="text" class="form-input" id="qf-name" placeholder="اسمك الكريم"/>
             </div>
             <div class="form-group">
               <label class="form-label">رقم الواتساب *</label>
-              <input type="tel" class="form-input" name="phone" placeholder="05xxxxxxxx" required/>
+              <input type="tel" class="form-input" id="qf-phone" placeholder="216xxxxxxxx"/>
             </div>
             <div class="form-group">
-              <label class="form-label">معرّف الحساب / ID</label>
-              <input type="text" class="form-input" name="account_id" placeholder="مثال: 123456789"/>
+              <label class="form-label">معرّف الحساب (اختياري)</label>
+              <input type="text" class="form-input" id="qf-id" placeholder="ID اللعبة أو الحساب"/>
             </div>
             <div class="form-group">
               <label class="form-label">طريقة الدفع</label>
-              <select class="form-select" name="payment">
-                <option value="stcpay">STC Pay</option>
-                <option value="mada">مدى</option>
+              <select class="form-select" id="qf-pay">
                 <option value="transfer">تحويل بنكي</option>
+                <option value="d17">D17</option>
                 <option value="paypal">PayPal</option>
-                <option value="crypto">كريبتو</option>
+                <option value="cash">نقداً</option>
               </select>
             </div>
             <div class="form-group">
               <label class="form-label">ملاحظات</label>
-              <textarea class="form-textarea" name="notes" placeholder="أي تفاصيل إضافية..."></textarea>
+              <textarea class="form-textarea" id="qf-notes" placeholder="أي تفاصيل إضافية..."></textarea>
             </div>
-            <input type="hidden" name="product_id" value="${product.id}"/>
-            <input type="hidden" name="product_title" value="${product.title}"/>
-            <input type="hidden" name="product_price" value="${product.price}"/>
-            <button type="submit" class="btn-submit" id="submit-btn">إرسال الطلب ←</button>
-          </form>
-          <div class="success-msg" id="success-msg">
-            <h4><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> تم استلام طلبك!</h4>
+            <button class="btn-submit-form" id="qf-submit" onclick="submitQuickOrder(${p.id},'${p.title.replace(/'/g,"\\'")}',${p.price})">
+              إرسال الطلب
+            </button>
+          </div>
+          <div class="success-box" id="qf-success">
+            <h4>تم استلام طلبك!</h4>
             <p>سنتواصل معك قريباً عبر واتساب.</p>
           </div>
         </div>
@@ -347,90 +486,102 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     <!-- RELATED -->
     <div class="related-section">
-      <div style="font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:6px;">منتجات مشابهة</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-bottom:8px;">قد يعجبك أيضاً</div>
-      <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:20px;"></div>
-      <div class="related-grid" id="related-grid"><div class="spinner"></div></div>
+      <div class="section-eyebrow">منتجات مشابهة</div>
+      <div class="section-heading">قد يعجبك أيضاً</div>
+      <div class="section-divider"></div>
+      <div class="related-grid" id="related-grid">
+        <div style="grid-column:1/-1;display:flex;justify-content:center;padding:32px"><div class="spinner"></div></div>
+      </div>
     </div>
   `;
 
-  // Sticky action buttons (mobile)
-  const existingSticky = document.querySelector('.actions-sticky');
-  if (!existingSticky) {
-    const sticky = document.createElement('div');
-    sticky.className = 'actions-sticky';
-    sticky.innerHTML = `
-      <button class="btn-buy-now" onclick="window.location.href='checkout.html?product=${product.id}'"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> شراء الآن</button>
-      <a class="btn-whatsapp-sticky" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحبا، أريد طلب: ' + product.title + ' - السعر: ' + product.price + ' د.ت )}" target="_blank"><svg width="18" height="18" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.6a.75.75 0 0 0 .92.92l5.741-1.474A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.72 9.72 0 0 1-4.962-1.362l-.355-.21-3.685.946.982-3.584-.232-.37A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg></a>
-      <button class="btn-cart-sticky" onclick="addToCart({id:${product.id},title:'${safeTitle}',price:${product.price},icon:'${safeIcon}',game:'${safeGame}'})"><svg width="15" height="15" style="flex-shrink:0;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
-    `;
-    document.body.appendChild(sticky);
-  }
+  // Sticky actions
+  const sticky = document.createElement('div');
+  sticky.className = 'sticky-actions';
+  sticky.innerHTML = `
+    <button class="btn-buy" onclick="location.href='checkout.html?product=${p.id}'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      شراء الآن
+    </button>
+    <a class="btn-wa" href="https://wa.me/${WA}?text=${waMsg}" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.6a.75.75 0 0 0 .92.92l5.741-1.474A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.72 9.72 0 0 1-4.962-1.362l-.355-.21-3.685.946.982-3.584-.232-.37A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+    </a>
+    <button class="btn-cart-sticky" onclick="addToCart({id:${p.id},title:${JSON.stringify(p.title)},price:${p.price},image_url:${JSON.stringify(p.image_url||null)},game:${JSON.stringify(p.game||'')},category:${JSON.stringify(p.category||'')}})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    </button>
+  `;
+  document.body.appendChild(sticky);
 
-  // Form submit
-  document.getElementById('quick-order-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true; btn.textContent = 'جاري الإرسال...';
-    const data = Object.fromEntries(new FormData(e.target));
-    try {
-      const user = await getCurrentUser();
-      await _supabase.from('orders').insert({ user_id: user?.id||null, product_id: parseInt(data.product_id), product_title: data.product_title, amount: parseFloat(data.product_price), status:'pending', customer_name:data.name, customer_phone:data.phone, account_id:data.account_id||null, payment_method:data.payment, notes:data.notes||null });
-    } catch(e){}
-    document.getElementById('quick-order-form').style.display = 'none';
-    document.getElementById('success-msg').classList.add('show');
-    const msg = ` طلب جديد\n\n ${data.product_title}\n ${data.product_price} د.ت \n ${data.name}\n ${data.phone}\n ID: ${data.account_id||'—'}\n ${data.payment}\n ${data.notes||'—'}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-  });
-
-  loadRelated(product);
+  // Load related
+  loadRelated(p.category, p.id);
 });
 
-async function loadRelated(product) {
-  const { data } = await _supabase.from('products').select('*').eq('category', product.category).eq('in_stock', true).neq('id', product.id).limit(4);
+async function submitQuickOrder(pid, ptitle, pprice) {
+  const name  = document.getElementById('qf-name').value.trim();
+  const phone = document.getElementById('qf-phone').value.trim();
+  const gid   = document.getElementById('qf-id').value.trim();
+  const pay   = document.getElementById('qf-pay').value;
+  const notes = document.getElementById('qf-notes').value.trim();
+  const btn   = document.getElementById('qf-submit');
+
+  if (!name||!phone) { alert('يرجى ملء الاسم ورقم الواتساب'); return; }
+
+  btn.disabled=true; btn.textContent='جاري الإرسال...';
+
+  try {
+    await db.from('orders').insert({
+      product_id:pid, product_title:ptitle, amount:pprice,
+      status:'pending', customer_name:name, customer_phone:phone,
+      account_id:gid||null, payment_method:pay, notes:notes||null
+    });
+  } catch(e){ console.log(e); }
+
+  const msg = `طلب جديد من Lgrinta\n\nالمنتج: ${ptitle}\nالسعر: ${pprice} د.ت\nالاسم: ${name}\nالجوال: ${phone}\nID: ${gid||'—'}\nالدفع: ${pay}\nملاحظات: ${notes||'—'}`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
+
+  document.getElementById('quick-form').style.display='none';
+  document.getElementById('qf-success').classList.add('show');
+}
+
+async function loadRelated(category, currentId) {
   const grid = document.getElementById('related-grid');
   if (!grid) return;
-  if (!data?.length) { grid.innerHTML = '<p style="color:var(--text-muted);grid-column:1/-1;font-size:14px">لا توجد منتجات مشابهة</p>'; return; }
-  grid.innerHTML = data.map(renderProductCard).join('');
-}
+  const { data } = await db.from('products').select('*')
+    .eq('category', category).eq('in_stock', true).neq('id', currentId).limit(4);
 
-function updateCartBadgeLocal() {
-  const count = JSON.parse(localStorage.getItem('lgrinta_cart')||'[]').reduce((s,i)=>s+(i.qty||1),0);
-  const b = document.getElementById('cart-badge');
-  if(b){b.textContent=count;b.style.display=count>0?'flex':'none';}
-}
-window.updateCartBadge = updateCartBadgeLocal;
-
-function toggleCart() {
-  const ov = document.getElementById('cart-overlay');
-  ov.classList.toggle('open');
-  if (ov.classList.contains('open')) renderCartSidebar();
-}
-
-function renderCartSidebar() {
-  const cart = JSON.parse(localStorage.getItem('lgrinta_cart')||'[]');
-  const listEl = document.getElementById('cart-items-list');
-  const footerEl = document.getElementById('cart-footer-el');
-  const totalEl = document.getElementById('cart-total');
-  if (!cart.length) {
-    listEl.innerHTML = '<div class="cart-empty"><div style="font-size:48px;opacity:.3;margin-bottom:10px"></div><p>السلة فارغة</p></div>';
-    footerEl.style.display = 'none'; return;
+  if (!data||!data.length) {
+    grid.innerHTML='<p style="color:var(--text-muted);font-size:14px;grid-column:1/-1">لا توجد منتجات مشابهة</p>';
+    return;
   }
-  listEl.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <div class="cart-item-icon">${item.icon||''}</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.title}</div>
-        <div class="cart-item-sub">${item.game||''} ${(item.qty||1)>1?`× ${item.qty}`:''}</div>
+  grid.innerHTML = data.map(p=>`
+    <div class="product-card" onclick="location.href='product.html?id=${p.id}'">
+      <div class="p-img-wrap">
+        <div class="p-img ${!p.image_url?p.img_class||'img-default':''}">
+          ${p.image_url
+            ?`<img src="${p.image_url}" alt="${p.title}" loading="lazy"/>`
+            :getCatSVG(p.category)
+          }
+        </div>
+        ${p.badge?`<span class="p-badge">${p.badge}</span>`:''}
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-        <span class="ci-price">${(item.price*(item.qty||1)).toFixed(0)} د.ت </span>
-        <button class="btn-remove" onclick="removeFromCart(${item.id});updateCartBadgeLocal();renderCartSidebar()"></button>
+      <div class="p-info">
+        <div class="p-game">${p.game||''}</div>
+        <div class="p-title">${p.title}</div>
+        <div class="p-price">${p.price} د.ت</div>
       </div>
     </div>`).join('');
-  const total = cart.reduce((s,i)=>s+i.price*(i.qty||1),0);
-  totalEl.textContent = `${total.toFixed(0)} د.ت`;
-  footerEl.style.display = 'block';
+}
+
+function getCatSVG(cat){
+  const icons={
+    gift_cards:'<path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
+    games:'<rect x="2" y="7" width="20" height="13" rx="5"/><path d="M8 12h2m-1-1v2M16 12h.01M18 12h.01"/>',
+    social:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    subscriptions:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    top_up:'<polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="8.5"/><polyline points="22 8.5 12 8.5 2 8.5"/>',
+    accounts:'<path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>',
+  };
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;opacity:.5;color:#D4AF37">${icons[cat]||icons['games']}</svg>`;
 }
 </script>
 </body>
